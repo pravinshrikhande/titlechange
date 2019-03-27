@@ -1,0 +1,23 @@
+add_filter( 'pre_get_document_title', function( $title ){
+    // Make any changes here
+    if( is_singular( 'post' ) ){ 
+    	$args = array(
+					'post_id' => get_the_ID()
+				);
+			
+		$comments_query = new WP_Comment_Query;	
+        // change title parts here
+        $pageno = get_query_var( 'cpage' );
+        $max_page = get_comment_pages_count( $comments_query->query( $args ) );
+        $title = get_query_var( 'name' );
+    }
+
+    if($pageno)
+    {
+    	return $title.' - Page '.$pageno.' of '.$max_page;
+    }
+    else
+    {
+    	return $title;
+    }
+}, 999, 1 );
